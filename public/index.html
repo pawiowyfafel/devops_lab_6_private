@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Licznik ts</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f0f0f0; }
+        .counter-box { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .btn { font-size: 2rem; width: 50px; height: 50px; cursor: pointer; margin: 10px; border: none; border-radius: 5px; background: #007bff; color: white; }
+        .btn:hover { background: #0056b3; }
+        #count { font-size: 4rem; margin: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="counter-box">
+        <h1>Licznik ten tego</h1>
+        <div>
+            <button class="btn" onclick="change(-1)">-</button>
+            <span id="count">0</span>
+            <button class="btn" onclick="change(1)">+</button>
+        </div>
+    </div>
+    <script>
+        let count = 0;
+        function change(val) {
+            count += val;
+            document.getElementById('count').innerText = count;
+        }
+    </script>
+</body>
+</html>

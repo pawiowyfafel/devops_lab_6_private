@@ -1,0 +1,28 @@
+{
+  "name": "devops_lab_6_private",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawiowyfafel/devops_lab_6_private.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawiowyfafel/devops_lab_6_private/issues"
+  },
+  "homepage": "https://github.com/pawiowyfafel/devops_lab_6_private#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  }
+}
