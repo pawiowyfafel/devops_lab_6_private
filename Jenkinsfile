@@ -34,15 +34,15 @@ pipeline {
         stage('Deploy & Smoke Test') {
             steps {
                 script {
-                    def vmIp = sh(script: "hostname -I | awk '{print \$1}'", returnStdout: true).trim()
+                    def targetHost = "docker"
                     
                     sh "docker rm -f counter-container || true"
                     sh "docker run -d --name counter-container -p 3000:3000 ${IMAGE_NAME}:${VERSION}"
                     
-                    echo "Wykonuję Smoke Test na adresie: http://${vmIp}:3000/api/health"
+                    echo "Wykonuję Smoke Test na adresie: http://${targetHost}:3000/api/health"
                     sh """
-                        sleep 3
-                        curl -f http://${vmIp}:3000/api/health || (docker logs counter-container && exit 1)
+                        sleep 5
+                        curl -f http://${targetHost}:3000/api/health || (docker logs counter-container && exit 1)
                     """
                 }
             }
