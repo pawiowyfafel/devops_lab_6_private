@@ -5,15 +5,20 @@ pipeline {
         IMAGE_NAME = "devops-counter-app"
         VERSION    = "1.0.${BUILD_NUMBER}"
     }
+    
+    options {
+        skipDefaultCheckout(true)
+    }
 
     stages {
-        stage('Clone') {
+        stage('Clean & Clone') {
             steps {
+                cleanWs() 
                 checkout scm
             }
         }
 
-        stage('Build & Test Container') {
+        stage('Build & Test') {
             steps {
                 sh """
                     docker build \
@@ -24,14 +29,7 @@ pipeline {
             }
         }
 
-        stage('Publish Artifact') {
-            steps {
-                sh "docker tag ${IMAGE_NAME}:${VERSION} ${IMAGE_NAME}:latest"
-                echo "Otagowano artefakt jako: ${IMAGE_NAME}:${VERSION}"
-            }
-        }
-
-        stage('Deploy & Smoke Test') {
+        stage('Deploy') {
             steps {
                 script {
                     def targetHost = "docker"
@@ -47,15 +45,13 @@ pipeline {
                 }
             }
         }
-    }
-    
-    post {
-        always {
-            script {
-                sh "docker inspect ${IMAGE_NAME}:${VERSION} > docker-inspect-${VERSION}.json || true"
-                sh "docker logs counter-container > container-logs-${VERSION}.txt || true"
+
+        stage('Publish') {
+            steps {
+                sh "docker save -o ${IMAGE_NAME}-${VERSION}.tar ${IMAGE_NAME}:${VERSION}"
+                
+                archiveArtifacts artifacts: "*.tar", allowEmptyArchive: false
             }
-            archiveArtifacts artifacts: "*.json, *.txt", allowEmptyArchive: true
         }
     }
 }
